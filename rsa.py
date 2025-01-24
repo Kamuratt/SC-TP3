@@ -16,10 +16,14 @@ def modular_exponentiation(base, exp, mod):
 def rsaAlgorithm(m, c1, c2, k):
     if k == "c":
         #Verifica se está sendo feito o processo de codificação
-        
-        m = oaep_encode(m, len(str(c2)))
+
+        m = oaep_encode(m, 128)
+
+        print(m)
 
         C = modular_exponentiation(m, c1, c2)
+
+        print(C)
         
         #Divide a exponenciação para otimizar os cálculos
         
@@ -28,10 +32,14 @@ def rsaAlgorithm(m, c1, c2, k):
         return C
     elif k == "d":
         #Verifica se está sendo feito o processo de decodificação
-        
+
         MD = modular_exponentiation(m, c1, c2)
 
-        oaep_decode(MD, len(str(c2)))
+        print(MD)
+
+        MD = oaep_decode(MD, 128)
+
+        print(MD)
         
         #Divide a exponenciação para otimizar os cálculos
         
@@ -39,9 +47,13 @@ def rsaAlgorithm(m, c1, c2, k):
 
         return MD
 
-m = 754789874985498547985498549854784985954798549854985498598454989595498562554985498515652123564564231564532154798456415649844189848498478884698498468468478446846846846845346845684846846846846846846846846846845643515616879845619874984123549848
+m = 7
 
 chaves_codificacao, chaves_decodificacao = genKeys()
+
+print(chaves_codificacao)
+
+print(chaves_decodificacao)
 
 mensagem_decodificada = rsaAlgorithm(rsaAlgorithm(m, chaves_codificacao[0], chaves_codificacao[1], "c"), chaves_decodificacao[0], chaves_decodificacao[1], "d")
 

@@ -23,6 +23,7 @@ def oaep_encode(message_int, k, h_len=32):
     message = int_to_bytes(message_int, (message_int.bit_length() + 7) // 8)
 
     m_len = len(message)
+
     padding_length = k - m_len - 2 * h_len - 2
 
     if padding_length < 0:
@@ -110,16 +111,3 @@ def oaep_decode(encoded_message_int, k, h_len=32):
 
     # Converter a mensagem de volta para um inteiro
     return bytes_to_int(message)
-
-# Testando OAEP com inteiros
-message_int = 123456789012345678901234567890
-k = 256  # Tamanho do bloco de dados (em bytes)
-
-# Codificando a mensagem
-encoded_message_int = oaep_encode(message_int, k)
-print("Mensagem codificada (inteiro):", encoded_message_int)
-
-# Decodificando a mensagem
-decoded_message_int = oaep_decode(encoded_message_int, k)
-print("Mensagem decodificada (inteiro):", decoded_message_int)
-

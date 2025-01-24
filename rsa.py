@@ -1,4 +1,5 @@
 from genKeys import genKeys
+from OAEP import oaep_encode, oaep_decode
 
 def modular_exponentiation(base, exp, mod):
     result = 1
@@ -16,6 +17,8 @@ def rsaAlgorithm(m, c1, c2, k):
     if k == "c":
         #Verifica se está sendo feito o processo de codificação
         
+        m = oaep_encode(m, len(str(c2)))
+
         C = modular_exponentiation(m, c1, c2)
         
         #Divide a exponenciação para otimizar os cálculos
@@ -27,6 +30,8 @@ def rsaAlgorithm(m, c1, c2, k):
         #Verifica se está sendo feito o processo de decodificação
         
         MD = modular_exponentiation(m, c1, c2)
+
+        oaep_decode(MD, len(str(c2)))
         
         #Divide a exponenciação para otimizar os cálculos
         

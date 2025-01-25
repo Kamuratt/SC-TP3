@@ -23,4 +23,4 @@ def verificar_assinatura(mensagem, assinatura_base64, chave_publica, n):
     if hash_decifrado == hash_mensagem_int:
         return mensagem, True
     else:
-        return "", False
+        return None, False

@@ -1,16 +1,16 @@
 import os
 from hashlib import sha3_256
 
-# Função para converter um inteiro para bytes
+# Função para converter um inteiro para bytes com verificação
 def int_to_bytes(x, length):
     return x.to_bytes(length, byteorder="big")
-
 # Função para converter bytes para um inteiro
+
 def bytes_to_int(b):
     return int.from_bytes(b, byteorder="big")
 
 # Função para aplicar OAEP
-def oaep_encode(message_int, k, h_len=32):
+def oaep_encode(message_int, k=128, h_len=32):
     """
     Aplica o OAEP (Optimal Asymmetric Encryption Padding) a um número inteiro com SHA3-256.
 
@@ -65,7 +65,7 @@ def oaep_encode(message_int, k, h_len=32):
     return bytes_to_int(encoded_message)
 
 # Função para descriptografar OAEP
-def oaep_decode(encoded_message_int, k, h_len=32):
+def oaep_decode(encoded_message_int, k=128, h_len=32):
     """
     Simula a descriptografia da mensagem cifrada com OAEP com SHA3-256.
 

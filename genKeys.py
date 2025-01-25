@@ -1,3 +1,4 @@
+
 import random
 
 # Checa se n é primo a partir de teorema, chegando a resultado probabilístico

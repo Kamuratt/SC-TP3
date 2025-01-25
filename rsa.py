@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 from genKeys import genKeys
+=======
+from OAEP import oaep_encode, oaep_decode
+>>>>>>> Stashed changes
 
 def modular_exponentiation(base, exp, mod):
     result = 1
@@ -15,18 +19,23 @@ def modular_exponentiation(base, exp, mod):
 def rsaAlgorithm(m, c1, c2, k):
     if k == "c":
         #Verifica se está sendo feito o processo de codificação
+<<<<<<< Updated upstream
         
+=======
+
+        m = oaep_encode(m, 128)
+        #Realiza o OEAP     
+    
+>>>>>>> Stashed changes
         C = modular_exponentiation(m, c1, c2)
-        
         #Divide a exponenciação para otimizar os cálculos
         
-        print(f'Mensagem codificada: {C}')
-
         return C
     elif k == "d":
         #Verifica se está sendo feito o processo de decodificação
         
         MD = modular_exponentiation(m, c1, c2)
+<<<<<<< Updated upstream
         
         #Divide a exponenciação para otimizar os cálculos
         
@@ -44,3 +53,11 @@ if m == int(mensagem_decodificada):
     print("Mensagem em claro é igual a mensagem decodificada, o que é esperado.")
 else:
     print("Mensagem em claro é diferente a mensagem decodificada, o que demonstra que há algum erro no RSA.")
+=======
+        #Divide a exponenciação para otimizar os cálculos
+
+        MD = oaep_decode(MD, 128)
+        #Realiza o OEAP
+        
+        return MD
+>>>>>>> Stashed changes

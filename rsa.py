@@ -22,8 +22,6 @@ def rsaAlgorithm(m, c1, c2, k):
         print(m)
 
         C = modular_exponentiation(m, c1, c2)
-
-        print(C)
         
         #Divide a exponenciação para otimizar os cálculos
         
@@ -46,18 +44,3 @@ def rsaAlgorithm(m, c1, c2, k):
         print(f'Mensagem decodificada: {MD}')
 
         return MD
-
-m = 7
-
-chaves_codificacao, chaves_decodificacao = genKeys()
-
-print(chaves_codificacao)
-
-print(chaves_decodificacao)
-
-mensagem_decodificada = rsaAlgorithm(rsaAlgorithm(m, chaves_codificacao[0], chaves_codificacao[1], "c"), chaves_decodificacao[0], chaves_decodificacao[1], "d")
-
-if m == int(mensagem_decodificada):
-    print("Mensagem em claro é igual a mensagem decodificada, o que é esperado.")
-else:
-    print("Mensagem em claro é diferente a mensagem decodificada, o que demonstra que há algum erro no RSA.")

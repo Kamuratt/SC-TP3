@@ -64,7 +64,6 @@ def mdc(a, b):
 def are_coprime(a, b):
 
     #Verifica se dois números são coprimos.
-    
     return mdc(a, b) == 1
 
 def find_e(phi_n):
@@ -111,5 +110,9 @@ def genKeys():
     e = find_e(sigma)
 
     d = modular_inverse(e, sigma)
+
+    print(f'Chaves públicas: E: {e}, N: {n}\n')
+
+    print(f'Chaves privadas: D: {d}, N: {n}\n')
 
     return (e, n), (d, n)

@@ -24,10 +24,18 @@ def assinar_mensagem(mensagem, chave_privada, n):
     """
     # Calcula o hash da mensagem
     hash_mensagem = calcular_hash(mensagem)
+
+    print(f'Mensagem depois do hash: {hash_mensagem}\n')
+    
     # Converte o hash para inteiro
     hash_int = int(hash_mensagem, 16)
+    
     # Cifra o hash com a chave privada: assinatura = (hash^d) mod n
     assinatura = rsaAlgorithm(hash_int, chave_privada, n, "c")
+    
     # Converte a assinatura para Base64
     assinatura_base64 = base64.b64encode(assinatura.to_bytes((assinatura.bit_length() + 7) // 8, 'big')).decode('utf-8')
+
+    print(f'Mensagem Assinada: {assinatura_base64}\n')
+    
     return mensagem, assinatura_base64

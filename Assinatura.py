@@ -1,41 +1,47 @@
-import hashlib
 import base64
+from hashlib import sha256
 from rsa import rsaAlgorithm
 
 def calcular_hash(mensagem):
     """
-    Calcula o hash da mensagem usando SHA-3 (256 bits).
+    Calcula o hash SHA-256 da mensagem.
     
     :param mensagem: Mensagem em texto.
-    :return: Hash da mensagem como string hexadecimal.
+    :return: Hash da mensagem em formato hexadecimal.
     """
-    sha3 = hashlib.sha3_256()
-    sha3.update(mensagem.encode('utf-8'))
-    return sha3.hexdigest()
+    return sha256(mensagem.encode('utf-8')).hexdigest()
 
-def assinar_mensagem(mensagem, chave_privada, n):
+def assinar_arquivo(arquivo_mensagem, chave_privada, n, arquivo_assinado):
     """
-    Assina a mensagem cifrando o hash com a chave privada.
+    Cria uma assinatura digital da mensagem, lê a mensagem do arquivo,
+    concatena o hash criptografado e salva no mesmo arquivo.
     
-    :param mensagem: Mensagem em texto.
+    :param arquivo_mensagem: Caminho do arquivo contendo a mensagem.
     :param chave_privada: Expoente da chave privada (d).
     :param n: Módulo da chave pública/privada (n).
-    :return: Assinatura codificada em Base64.
+    :return: Caminho do arquivo com a mensagem e a assinatura salvos.
     """
+    # Lê o conteúdo do arquivo
+    with open(arquivo_mensagem, 'r') as file:
+        mensagem = file.read()
+    
     # Calcula o hash da mensagem
     hash_mensagem = calcular_hash(mensagem)
-
-    print(f'Mensagem depois do hash: {hash_mensagem}\n')
-    
-    # Converte o hash para inteiro
     hash_int = int(hash_mensagem, 16)
     
-    # Cifra o hash com a chave privada: assinatura = (hash^d) mod n
+    # Assina o hash (assinatura = (hash^d) mod n)
     assinatura = rsaAlgorithm(hash_int, chave_privada, n, "c")
     
-    # Converte a assinatura para Base64
-    assinatura_base64 = base64.b64encode(assinatura.to_bytes((assinatura.bit_length() + 7) // 8, 'big')).decode('utf-8')
-
-    print(f'Mensagem Assinada: {assinatura_base64}\n')
+    # Codifica a assinatura em Base64 para envio
+    assinatura_bytes = assinatura.to_bytes((assinatura.bit_length() + 7) // 8, 'big')
+    assinatura_base64 = base64.b64encode(assinatura_bytes).decode('utf-8')
     
-    return mensagem, assinatura_base64
+    # Concatena a mensagem original com a assinatura criptografada
+    mensagem_assinada = f"{mensagem}\n{assinatura_base64}"
+    
+    # Salva a mensagem assinada de volta no mesmo arquivo
+    with open(arquivo_assinado, 'w') as file:
+        file.write(mensagem_assinada)
+    
+    # Retorna o caminho do arquivo
+    return arquivo_assinado

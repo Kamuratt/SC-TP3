@@ -1,16 +1,23 @@
 import base64
 from Assinatura import calcular_hash
 from rsa import rsaAlgorithm
-def verificar_assinatura(mensagem, assinatura_base64, chave_publica, n):
+
+def verificar_assinatura(arquivo_mensagem_assinada, chave_publica, n):
     """
-    Verifica a assinatura da mensagem.
+    Verifica a assinatura digital da mensagem, lendo o conteúdo do arquivo com a mensagem e assinatura.
     
-    :param mensagem: Mensagem em texto.
-    :param assinatura_base64: Assinatura codificada em Base64.
+    :param arquivo_mensagem_assinada: Caminho do arquivo com a mensagem e a assinatura concatenada.
     :param chave_publica: Expoente da chave pública (e).
     :param n: Módulo da chave pública/privada (n).
     :return: True se a assinatura for válida, False caso contrário.
     """
+    # Lê o conteúdo do arquivo
+    with open(arquivo_mensagem_assinada, 'r') as file:
+        mensagem_com_assinatura = file.read()
+    
+    # Separa a mensagem da assinatura (espera-se que a assinatura esteja na última linha)
+    mensagem, assinatura_base64 = mensagem_com_assinatura.rsplit('\n', 1)
+    
     # Decodifica a assinatura de Base64 para inteiro
     assinatura_bytes = base64.b64decode(assinatura_base64.encode('utf-8'))
     assinatura = int.from_bytes(assinatura_bytes, 'big')
@@ -24,6 +31,6 @@ def verificar_assinatura(mensagem, assinatura_base64, chave_publica, n):
     
     # Compara os hashes
     if hash_decifrado == hash_mensagem_int:
-        return mensagem, True
+        return True  # A assinatura é válida
     else:
-        return None, False
+        return False  # A assinatura é inválida

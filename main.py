@@ -1,16 +1,23 @@
-from Assinatura import assinar_mensagem
+from Assinatura import assinar_arquivo
 from Verificaçao import verificar_assinatura
 from genKeys import genKeys
 
-mensagem = "Eu sou linda, sou gostosa, mas eu sofro pra caralho. As bonitas também sofrem, tô sem grana pra gastar. Eu só pego cara duro, então tenho que trabalhar. Eu sou foda pra caralho e ainda vou ser popstar."
+mensagem = "C:/Users/cauak/OneDrive/Documentos/GitHub/SC-TP3/Mensagem.txt"
 
 chaves_publicas, chaves_privadas = genKeys()
 
-mensagem, mensagem_assinada = assinar_mensagem(mensagem, chaves_privadas[0], chaves_privadas[1])
+arquivo_assinado = assinar_arquivo(mensagem, chaves_privadas[0], chaves_privadas[1], "C:/Users/cauak/OneDrive/Documentos/GitHub/SC-TP3/Mensagem Assinada.txt")
 
-mensagem, verificacao = verificar_assinatura(mensagem, mensagem_assinada, chaves_publicas[0], chaves_publicas[1])
+verificacao = verificar_assinatura(arquivo_assinado, chaves_publicas[0], chaves_publicas[1])
 
-if verificacao == True and mensagem:
-    print(f"Mensagem verificada e segura. Mensagem recebida: {mensagem}")
+if verificacao == True:
+    # Abre o arquivo com a codificação correta (utf-8)
+    with open(mensagem, 'r', encoding='utf-8') as file:
+        mensagem_lida = file.read()  # Lê todo o conteúdo do arquivo
+    
+    print(f"Mensagem verificada e segura. Mensagem recebida: {mensagem_lida}")
 else:
-    print("Foi verificada uma alteração na mensagem.")  
+    print("Foi verificada uma alteração na mensagem.")
+
+with open(arquivo_assinado, 'w') as file:
+        file.truncate(0)  # Garantir que o arquivo será limpo

@@ -2,11 +2,11 @@ from Assinatura import assinar_arquivo
 from Verificaçao import verificar_assinatura
 from genKeys import genKeys
 
-mensagem = "C:/Users/cauak/OneDrive/Documentos/GitHub/SC-TP3/Mensagem.txt"
+mensagem = "./Mensagem.txt"
 
 chaves_publicas, chaves_privadas = genKeys()
 
-arquivo_assinado = assinar_arquivo(mensagem, chaves_privadas[0], chaves_privadas[1], "C:/Users/cauak/OneDrive/Documentos/GitHub/SC-TP3/Mensagem Assinada.txt")
+arquivo_assinado = assinar_arquivo(mensagem, chaves_privadas[0], chaves_privadas[1], "./Mensagem Assinada.txt")
 
 verificacao = verificar_assinatura(arquivo_assinado, chaves_publicas[0], chaves_publicas[1])
 
@@ -19,5 +19,3 @@ if verificacao == True:
 else:
     print("Foi verificada uma alteração na mensagem.")
 
-with open(arquivo_assinado, 'w') as file:
-        file.truncate(0)  # Garantir que o arquivo será limpo
